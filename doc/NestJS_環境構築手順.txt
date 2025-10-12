@@ -1,0 +1,86 @@
+■NestJS環境構築手順
+
+★ライブラリ
+ORM/マイグレーション：Prisma
+DB：postgreSQL
+
+
+① プロジェクトを作成するフォルダ直下に移動
+
+
+②Nest CLI のインストール
+npm install -g @nestjs/cli
+
+
+③プロジェクトの新規作成
+npx nest new プロジェクト名
+実行中に質問が出た場合は以下のように回答する：
+パッケージマネージャ: npm を選択
+その他はすべて Enter
+
+
+④プロジェクトディレクトリへ移動
+cd reference-api
+
+
+⑤開発サーバーの起動確認
+npm run start
+
+
+⑥Prisma の導入(PostgreSQL 利用)
+
+⑥-0. PostgreSQL の準備
+※PostgreSQL を使用
+
+スキーマ作成クエリ
+CREATE SCHEMA reference AUTHORIZATION postgres;
+
+⑥-1. Prisma 関連パッケージをインストール
+npm install prisma --save-dev
+npm install @prisma/client
+
+
+⑥-2. Prisma の初期化
+npx prisma init
+
+
+実行後に以下が生成される
+prisma/schema.prisma（スキーマ定義ファイル）
+
+.env（DB接続設定ファイル）
+
+
+⑥-3. .env の編集
+
+例：PostgreSQL を使用する場合
+DATABASE_URL="postgresql://postgres:パスワード@localhost:5432/reference_db?schema=public"
+※ reference_db の部分は任意の DB 名
+
+
+⑥-4. スキーマファイルの設定
+
+prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model TestTransaction {
+  id    Int     @id @default(autoincrement())
+  name  String
+  @@map("test_transaction")
+}
+
+
+⑥-5. DB 生成とマイグレーション
+npx prisma migrate dev --name init
+実行時、Prismaが自動的にテーブルを作成する
+
+
+⑥-6. Prisma Studio（データ閲覧ツール）の起動（任意）
+npx prisma studio
