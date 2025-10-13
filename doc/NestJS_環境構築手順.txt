@@ -84,3 +84,7 @@ npx prisma migrate dev --name init
 
 ⑥-6. Prisma Studio（データ閲覧ツール）の起動（任意）
 npx prisma studio
+
+
+⑦.env読み込み用パッケージのインストール
+npm install @nestjs/config
