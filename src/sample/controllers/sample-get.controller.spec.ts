@@ -15,4 +15,14 @@ describe('SampleGetController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  it('should return the sample GET response', () => {
+
+    const result = controller.execute();
+
+    expect(result).toEqual({
+      status: 200,
+      message: 'sample GET response',
+    });
+  });
 });

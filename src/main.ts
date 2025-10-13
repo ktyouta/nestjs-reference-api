@@ -12,6 +12,8 @@ async function bootstrap() {
   const corsDomain = configService.get<string>('CORS_DOMAIN');
   const corsPort = configService.get<string>('CORS_PORT');
 
+  app.setGlobalPrefix('/reference');
+
   // CORS設定
   app.enableCors({
     origin: [`${corsProtocol}${corsDomain}${corsPort}`],

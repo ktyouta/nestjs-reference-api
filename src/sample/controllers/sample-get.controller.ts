@@ -1,4 +1,14 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
-@Controller('sample-get')
-export class SampleGetController {}
+@Controller('v1/sample')
+export class SampleGetController {
+
+    @Get()
+    execute() {
+
+        return {
+            status: 200,
+            message: 'sample GET response'
+        };
+    }
+}
