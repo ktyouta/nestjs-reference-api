@@ -1,0 +1,34 @@
+@Module({
+  controllers: [SampleGetController],
+  providers: [
+    {
+      provide: SampleGetServiceInterface,
+      useClass: SampleGetService,
+    },
+    {
+      provide: SampleRepositoryInterface,
+      useClass: SampleRepository,
+    }
+  ],
+})
+export class SampleModule {}
+
+
+この1ブロックが、
+「Sample機能をひとまとめにした箱」（＝モジュール）となる
+
+
+①controllers: [SampleGetController]
+HTTPリクエストを受け取るクラス（Controller）を登録する
+
+
+②providers: [...]
+依存性注入（DI） の中心部分
+
+NestJSのDIコンテナに対して以下の情報を与える
+「SampleGetServiceInterface という依存を注入が支持された場合、実際にはSampleGetServiceクラスを使用する
+
+Controllerのコンストラクタが以下の場合
+constructor(private readonly service: SampleGetServiceInterface) {}
+NestJSは起動時に自動的に
+service = new SampleGetService();を生成して、controllerに注入する
