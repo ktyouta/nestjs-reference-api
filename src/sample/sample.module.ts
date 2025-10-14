@@ -9,7 +9,7 @@ import { SampleGetService } from './services/sample-get.service';
             provide: `SampleGetServiceInterface`,
             useClass: SampleGetService
         }
-    ]
+    ],
 })
 
 export class SampleModule { }

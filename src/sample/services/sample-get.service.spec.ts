@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SampleGetService } from './sample-get.service';
 import { SampleModule } from '../sample.module';
-import { SampleGetServiceMock } from './__mocks__/sample-get.service.mock';
 
 describe('SampleGetService', () => {
   let service: SampleGetService;
@@ -9,12 +8,9 @@ describe('SampleGetService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [SampleModule],
-    })
-      // .overrideProvider(SampleGetServiceInterface)
-      // .useClass(SampleGetServiceMock)
-      .compile();
+    }).compile();
 
-    service = module.get<SampleGetService>(SampleGetService);
+    service = module.get<SampleGetService>('SampleGetServiceInterface');
   });
 
   it('should be defined', () => {
