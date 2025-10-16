@@ -1,9 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { SampleGetServiceInterface } from '../interfaces/sample-get.service.interface';
 import { SampleGetResponseDto } from '../dto/sample-get-response.dto';
+import type { SampleGetRepositoryInterface } from '../interfaces/sample-get.repository.interface';
 
 @Injectable()
 export class SampleGetService implements SampleGetServiceInterface {
+
+    constructor(@Inject(`SampleGetRepositoryInterface`) private sampleGetRepositoryInterface: SampleGetRepositoryInterface) { }
 
     getResponse(): SampleGetResponseDto {
 
@@ -11,5 +14,11 @@ export class SampleGetService implements SampleGetServiceInterface {
             status: 200,
             message: 'sample GET response'
         };
+    }
+
+    async getFindSample() {
+
+        const result = await this.sampleGetRepositoryInterface.find();
+        return result;
     }
 }

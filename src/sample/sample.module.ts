@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SampleGetController } from './controllers/sample-get.controller';
 import { SampleGetService } from './services/sample-get.service';
+import { SampleGetRepository } from './repositories/sample-get.repository';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Module({
     controllers: [SampleGetController],
@@ -8,7 +10,12 @@ import { SampleGetService } from './services/sample-get.service';
         {
             provide: `SampleGetServiceInterface`,
             useClass: SampleGetService
-        }
+        },
+        {
+            provide: `SampleGetRepositoryInterface`,
+            useClass: SampleGetRepository
+        },
+        PrismaService
     ],
 })
 

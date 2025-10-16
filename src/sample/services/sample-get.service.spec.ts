@@ -26,4 +26,14 @@ describe('SampleGetService', () => {
       message: 'sample GET response',
     });
   });
+
+  it('should return the sample find response', async () => {
+
+    const result = await service.getFindSample();
+
+    expect(result).toEqual({
+      id: 1,
+      name: `name`
+    });
+  });
 });
