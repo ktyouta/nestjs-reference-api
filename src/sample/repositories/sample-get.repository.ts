@@ -16,14 +16,14 @@ export class SampleGetRepository implements SampleGetRepositoryInterface {
     }
 
     async findAll() {
-        return this.prisma.sample.findMany();
+        return this.prisma.sampleTransaction.findMany();
     }
 
     async create(data: { name: string }) {
-        return this.prisma.sample.create({ data });
+        return this.prisma.sampleTransaction.create({ data });
     }
 
     async delete(id: number) {
-        return this.prisma.sample.delete({ where: { id } });
+        return this.prisma.sampleTransaction.delete({ where: { id } });
     }
 }

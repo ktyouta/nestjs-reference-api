@@ -1,6 +1,6 @@
 ■NestJS環境構築手順
 
-★ライブラリ
+★ライブラリ/DB
 ORM/マイグレーション：Prisma
 DB：postgreSQL
 
