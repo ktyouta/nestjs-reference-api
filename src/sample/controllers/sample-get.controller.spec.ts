@@ -17,13 +17,23 @@ describe('SampleGetController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should return the sample GET response', () => {
+  it('should return the sample GET response',async () => {
 
-    const result = controller.execute();
+    const result = await controller.execute(`1`);
 
     expect(result).toEqual({
       status: 200,
       message: 'sample GET response',
+    });
+  });
+
+  it('should return the sample GET no response',async () => {
+
+    const result = await controller.execute(`2`);
+
+    expect(result).toEqual({
+      status: 200,
+      message: 'sample GET no response',
     });
   });
 });

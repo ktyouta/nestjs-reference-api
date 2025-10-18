@@ -1,4 +1,4 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get, Inject, Query } from '@nestjs/common';
 import type { SampleGetServiceInterface } from '../interfaces/sample-get.service.interface';
 
 @Controller('v1/sample')
@@ -7,10 +7,22 @@ export class SampleGetController {
     constructor(@Inject(`SampleGetServiceInterface`) private sampleGetServiceInterface: SampleGetServiceInterface) { }
 
     @Get()
-    execute() {
+    async execute(@Query('id') strId: string,) {
 
-        const res = this.sampleGetServiceInterface.getResponse();
+        const id = parseInt(strId);
 
-        return res;
+        const sampleData = await this.sampleGetServiceInterface.getSampleData(id);
+
+        if(!sampleData){
+            return  {
+                status: 200,
+                message: 'sample GET no response'
+            }
+        }
+
+        return {
+                status: 200,
+                message: 'sample GET response'
+        };
     }
 }

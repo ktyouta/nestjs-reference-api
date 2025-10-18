@@ -4,6 +4,6 @@ import { PrismaService } from '../../prisma/prisma.service';
 describe('Sample', () => {
   it('should be defined', () => {
 
-    expect(new SampleGetRepository(PrismaService)).toBeDefined();
+    expect(new SampleGetRepository(new PrismaService())).toBeDefined();
   });
 });

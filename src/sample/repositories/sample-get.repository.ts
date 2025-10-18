@@ -7,12 +7,13 @@ export class SampleGetRepository implements SampleGetRepositoryInterface {
 
     constructor(private readonly prisma: PrismaService) { }
 
-    async find() {
+    async find(id:number) {
 
-        return {
-            id: 1,
-            name: `name`
-        }
+        return this.prisma.sampleTransaction.findUnique({
+            where:{
+                id
+            }
+        });
     }
 
     async findAll() {

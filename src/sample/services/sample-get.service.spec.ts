@@ -33,7 +33,7 @@ describe('SampleGetService', () => {
 
     expect(result).toEqual({
       id: 1,
-      name: `name`
+      name: `test`
     });
   });
 });

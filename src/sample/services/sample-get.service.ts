@@ -16,9 +16,16 @@ export class SampleGetService implements SampleGetServiceInterface {
         };
     }
 
+    async getSampleData(id:number){
+
+        const result = await this.sampleGetRepositoryInterface.find(id);
+
+        return result;
+    }
+
     async getFindSample() {
 
-        const result = await this.sampleGetRepositoryInterface.find();
+        const result = await this.sampleGetRepositoryInterface.find(1);
         return result;
     }
 }
