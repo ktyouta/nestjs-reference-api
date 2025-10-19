@@ -13,16 +13,16 @@ export class SampleGetController {
 
         const sampleData = await this.sampleGetServiceInterface.getSampleData(id);
 
-        if(!sampleData){
-            return  {
+        if (!sampleData) {
+            return {
                 status: 200,
                 message: 'sample GET no response'
             }
         }
 
         return {
-                status: 200,
-                message: 'sample GET response'
+            status: 200,
+            message: 'sample GET response'
         };
     }
 }

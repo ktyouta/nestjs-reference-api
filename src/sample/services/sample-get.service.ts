@@ -16,7 +16,7 @@ export class SampleGetService implements SampleGetServiceInterface {
         };
     }
 
-    async getSampleData(id:number){
+    async getSampleData(id: number) {
 
         const result = await this.sampleGetRepositoryInterface.find(id);
 

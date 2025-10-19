@@ -12,4 +12,12 @@ export class SampleGetServiceMock implements SampleGetServiceInterface {
             message: 'sample mock GET response'
         };
     }
+
+    async getSampleData(id: number) {
+
+        return {
+            name: ``,
+            id: 1
+        };
+    }
 }
