@@ -1,5 +1,6 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import type { SampleGetServiceInterface } from '../interfaces/sample-get.service.interface';
+import { SampleGetQueryDto } from '../dto/sample-get-query.dto';
 
 @Controller('v1/sample')
 export class SampleGetController {
@@ -7,9 +8,9 @@ export class SampleGetController {
     constructor(@Inject(`SampleGetServiceInterface`) private sampleGetServiceInterface: SampleGetServiceInterface) { }
 
     @Get()
-    async execute(@Query('id') strId: string,) {
+    async execute(@Query() query: SampleGetQueryDto) {
 
-        const id = parseInt(strId);
+        const id = query.id;
 
         const sampleData = await this.sampleGetServiceInterface.getSampleData(id);
 

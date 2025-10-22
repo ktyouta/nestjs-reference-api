@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SampleGetController } from './sample-get.controller';
 import { SampleModule } from '../sample.module';
+import { SampleGetQueryDto } from '../dto/sample-get-query.dto';
+import { ValidationPipe } from '@nestjs/common';
 
 describe('SampleGetController', () => {
   let controller: SampleGetController;
@@ -10,6 +12,10 @@ describe('SampleGetController', () => {
       imports: [SampleModule],
     }).compile();
 
+    const app = module.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
+    await app.init();
+
     controller = module.get<SampleGetController>(SampleGetController);
   });
 
@@ -17,9 +23,12 @@ describe('SampleGetController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should return the sample GET response',async () => {
+  it('should return the sample GET response', async () => {
 
-    const result = await controller.execute(`1`);
+    const sampleGetQueryDto = new SampleGetQueryDto();
+    sampleGetQueryDto.id = 1;
+
+    const result = await controller.execute(sampleGetQueryDto);
 
     expect(result).toEqual({
       status: 200,
@@ -27,9 +36,12 @@ describe('SampleGetController', () => {
     });
   });
 
-  it('should return the sample GET no response',async () => {
+  it('should return the sample GET no response', async () => {
 
-    const result = await controller.execute(`2`);
+    const sampleGetQueryDto = new SampleGetQueryDto();
+    sampleGetQueryDto.id = 2;
+
+    const result = await controller.execute(sampleGetQueryDto);
 
     expect(result).toEqual({
       status: 200,
