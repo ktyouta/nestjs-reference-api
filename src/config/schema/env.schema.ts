@@ -5,6 +5,9 @@ export const envSchema = z.object({
     CORS_PROTOCOL: z.enum(["http://", "https://"]).optional(),
     CORS_DOMAIN: z.string().nonempty().optional(),
     CORS_PORT: z.string().transform(Number).refine(n => !isNaN(n), "CORS_PORT must be a number").optional(),
+    DATABASE_URL: z.string().min(1),
+    CSRF_SECRET: z.string().min(32, "CSRF_SECRET は最低32文字必要です。"),
+    NODE_ENV: z.enum(["development", "test", "production"]),
 }).superRefine((val, ctx) => {
 
     const anyCorsDefined =
@@ -25,4 +28,6 @@ export const envSchema = z.object({
                 "If any of CORS_PROTOCOL, CORS_DOMAIN, or CORS_PORT is defined, all must be defined.",
         });
     }
-});;
+});
+
+export type Env = z.infer<typeof envSchema>;
