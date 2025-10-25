@@ -6,7 +6,7 @@ export const envSchema = z.object({
     CORS_DOMAIN: z.string().nonempty().optional(),
     CORS_PORT: z.string().transform(Number).refine(n => !isNaN(n), "CORS_PORT must be a number").optional(),
     DATABASE_URL: z.string().min(1),
-    CSRF_SECRET: z.string().min(32, "CSRF_SECRET は最低32文字必要です。"),
+    CSRF_SECRET: z.string().min(32, "CSRF_SECRET must be at least 32 characters long."),
     NODE_ENV: z.enum(["development", "test", "production"]),
 }).superRefine((val, ctx) => {
 

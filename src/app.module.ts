@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { envSchema } from './config/schema/env.schema';
 import { SampleModule } from './sample/sample.module';
+import { CsrfModule } from './csrf/csrf.module';
 
 
 @Module({
@@ -25,6 +26,7 @@ import { SampleModule } from './sample/sample.module';
       },
     }),
     SampleModule,
+    CsrfModule,
   ],
   controllers: [
     AppController,
