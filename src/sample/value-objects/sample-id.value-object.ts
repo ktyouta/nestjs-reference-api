@@ -1,6 +1,6 @@
 export class SampleIdValueObject {
 
-    private readonly _id: number;
+    private readonly _value: number;
 
     constructor(id: number) {
 
@@ -8,10 +8,10 @@ export class SampleIdValueObject {
             throw Error(`Invalid number`);
         }
 
-        this._id = id;
+        this._value = id;
     }
 
     get value() {
-        return this._id;
+        return this._value;
     }
 }

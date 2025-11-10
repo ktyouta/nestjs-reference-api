@@ -1,0 +1,79 @@
+■処理フロー
+Request
+  ↓
+Middleware   （共通前処理・ログ）
+  ↓
+Guard        （アクセス許可チェック）
+  ↓
+Interceptor(before)（前後を囲む）
+  ↓
+Pipe         （データ検証・変換）
+  ↓
+Controller   （本処理）
+  ↓
+Interceptor(after)（結果整形）
+  ↓
+Response
+
+
+①Middleware：「アプリ全体・ルート共通の前処理」
+
+例：
+リクエストログを残す
+共通ヘッダーを付与する
+リクエストボディをパースする（Expressの body-parser のように）
+
+この段階ではまだ「どのルートに行くか」も確定していない。
+→ だから最も早いタイミングで動く必要がある。
+
+
+②Guard：「ルート単位のアクセス制御」
+
+例：
+JWTトークンが正しいか？
+このユーザーは管理者か？
+
+ルートが確定した時点で、「アクセスしていいか？」を判定したい。
+→ なので Middlewareの後・Controllerの前 が最適。
+
+この時点でNGなら、後ろの処理（PipeやController）に無駄に進ませないようにできる。
+
+
+③Interceptor（前処理）：「共通的な前後処理を挟む」
+
+例：
+処理時間を計測する
+キャッシュを返す
+レスポンスフォーマットを統一する
+
+これは「実際にControllerの処理を実行する前後」を囲む必要がある。
+→ だからGuardのあと、Controllerを呼び出す直前に入る。
+
+
+④Pipe：「入力データの検証・変換」
+
+例：
+クエリ文字列 "123" を number に変換
+Bodyの型が DTO に一致しているかを検証
+
+Controllerに渡す引数の内容を整える必要がある。
+→ だから Controllerメソッドの実行直前 に適用される。
+
+
+⑤Interceptor（後処理）：「レスポンスを加工・整形」
+
+例：
+レスポンスの構造を統一する
+結果をキャッシュする
+ログを残す
+
+Controllerの処理が終わったあとで行いたい処理。
+→ だから「Pipe → Handler → Interceptor(after) → Response」となる。
+
+
+
+概念	     Controller単位	         Method単位	           Global単位	            除外・条件付き
+Middleware	✅ (forRoutes)	      ❌（ルートレベルのみ）	✅ (app.use())	        ✅ (exclude())
+Guard	    ✅ (@UseGuards)	      ✅ (@UseGuards)	  ✅ (useGlobalGuards)	  ✅（カスタムメタデータで制御）
+Interceptor	✅ (@UseInterceptors)  ✅	                  ✅	                      ✅（実装内で条件分岐）
+Pipe	    ✅ (@UsePipes)	      ✅	                  ✅ (useGlobalPipes)	  ✅（パラメータ単位で制御）
