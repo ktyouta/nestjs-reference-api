@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SampleGetService } from './sample-get.service';
 import { SampleModule } from '../sample.module';
+import { SampleIdValueObject } from '../value-objects/sample-id.value-object';
 
 describe('SampleGetService', () => {
   let service: SampleGetService;
@@ -17,19 +18,11 @@ describe('SampleGetService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should return the sample GET response', () => {
-
-    const result = service.getResponse();
-
-    expect(result).toEqual({
-      status: 200,
-      message: 'sample GET response',
-    });
-  });
-
   it('should return the sample find response', async () => {
 
-    const result = await service.getFindSample();
+    const sampleId = new SampleIdValueObject(1);
+
+    const result = await service.getSampleData(sampleId);
 
     expect(result).toEqual({
       id: 1,

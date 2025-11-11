@@ -43,7 +43,7 @@ async function bootstrap() {
       path: "/",
     },
     size: 32,
-    ignoredMethods: ["GET", "HEAD", "OPTIONS"],
+    ignoredMethods: nodeEnv === "production" ? ["GET", "HEAD", "OPTIONS"] : ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
   });
 
   // CSRF保護ミドルウェアを適用

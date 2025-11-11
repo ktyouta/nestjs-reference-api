@@ -2,6 +2,8 @@ import { Body, Controller, Inject, Post } from '@nestjs/common';
 import type { SamplePostServiceInterface } from '../interfaces/sample-post.service.interface';
 import { SamplePostDto } from '../dto/sample-post.dto';
 import { SampleNameValueObject } from '../value-objects/sample-name.value-object';
+import { PrismaTransaction } from 'src/prisma/prisma-transaction';
+import { Prisma } from '@prisma/client';
 
 @Controller('v1/sample')
 export class SamplePostController {
@@ -13,12 +15,15 @@ export class SamplePostController {
 
         const sampleName = new SampleNameValueObject(dto.name);
 
-        const result = await this.samplePostServiceInterface.create(sampleName);
+        PrismaTransaction.start(async (tx: Prisma.TransactionClient) => {
 
-        return {
-            status: 200,
-            message: 'sample POST response',
-            data: result,
-        };
+            const result = await this.samplePostServiceInterface.create(sampleName, tx);
+
+            return {
+                status: 200,
+                message: 'success',
+                data: result,
+            };
+        })
     }
 }

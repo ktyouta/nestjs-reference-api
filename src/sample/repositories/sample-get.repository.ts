@@ -1,30 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { SampleGetRepositoryInterface } from '../interfaces/sample-get.repository.interface';
+import { PrismaClientInstance } from 'src/prisma/prisma-client-instance';
+import { SampleIdValueObject } from '../value-objects/sample-id.value-object';
 
 @Injectable()
 export class SampleGetRepository implements SampleGetRepositoryInterface {
 
-    constructor(private readonly prisma: PrismaService) { }
+    constructor() { }
 
-    async find(id:number) {
+    async find(sampleId: SampleIdValueObject) {
 
-        return this.prisma.sampleTransaction.findUnique({
-            where:{
+        const id = sampleId.value;
+
+        return PrismaClientInstance.getInstance().sampleTransaction.findUnique({
+            where: {
                 id
             }
         });
-    }
-
-    async findAll() {
-        return this.prisma.sampleTransaction.findMany();
-    }
-
-    async create(data: { name: string }) {
-        return this.prisma.sampleTransaction.create({ data });
-    }
-
-    async delete(id: number) {
-        return this.prisma.sampleTransaction.delete({ where: { id } });
     }
 }

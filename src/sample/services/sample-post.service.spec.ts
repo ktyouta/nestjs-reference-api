@@ -6,7 +6,16 @@ describe('SamplePostService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SamplePostService],
+      providers: [
+        SamplePostService,
+        {
+          provide: 'SamplePostRepositoryInterface',
+          useValue: {
+            insert: jest.fn(),
+            getNextId: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<SamplePostService>(SamplePostService);
