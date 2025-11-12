@@ -2,6 +2,7 @@ import { Controller, Get, Inject, Query } from '@nestjs/common';
 import type { SampleGetServiceInterface } from '../interfaces/sample-get.service.interface';
 import { SampleGetQueryDto } from '../dto/sample-get-query.dto';
 import { SampleIdValueObject } from '../value-objects/sample-id.value-object';
+import { HTTP_STATUS } from 'src/common/constants/http-status';
 
 @Controller('v1/sample')
 export class SampleGetController {
@@ -17,13 +18,13 @@ export class SampleGetController {
 
         if (!sampleData) {
             return {
-                status: 200,
+                status: HTTP_STATUS.OK,
                 message: 'sample GET no response'
             }
         }
 
         return {
-            status: 200,
+            status: HTTP_STATUS.OK,
             message: 'sample GET response'
         };
     }

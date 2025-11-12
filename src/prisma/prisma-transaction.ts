@@ -8,7 +8,7 @@ export class PrismaTransaction {
 
         return PrismaClientInstance.getInstance().$transaction(async (tx: Prisma.TransactionClient) => {
             try {
-                await fn(tx);
+                return await fn(tx);
             } catch (err) {
                 throw new Error(err);
             }

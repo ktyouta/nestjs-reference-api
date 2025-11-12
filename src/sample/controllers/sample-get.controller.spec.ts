@@ -3,6 +3,7 @@ import { SampleGetController } from './sample-get.controller';
 import { SampleModule } from '../sample.module';
 import { SampleGetQueryDto } from '../dto/sample-get-query.dto';
 import { ValidationPipe } from '@nestjs/common';
+import { HTTP_STATUS } from 'src/common/constants/http-status';
 
 describe('SampleGetController', () => {
   let controller: SampleGetController;
@@ -31,7 +32,7 @@ describe('SampleGetController', () => {
     const result = await controller.execute(sampleGetQueryDto);
 
     expect(result).toEqual({
-      status: 200,
+      status: HTTP_STATUS.OK,
       message: 'sample GET response',
     });
   });
@@ -44,7 +45,7 @@ describe('SampleGetController', () => {
     const result = await controller.execute(sampleGetQueryDto);
 
     expect(result).toEqual({
-      status: 200,
+      status: HTTP_STATUS.OK,
       message: 'sample GET no response',
     });
   });
